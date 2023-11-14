@@ -27,9 +27,13 @@ public class CSVController {
 
     @GetMapping("/download")
     public ResponseEntity<Resource> getFile() throws IOException {
+        // 1. give a file name
         String filename = "employee.csv";
+
+        // 2. get data as stream
         InputStreamResource file = new InputStreamResource(csvService.load());
 
+        // 3. Download the csv as attachment
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
                 .contentType(MediaType.parseMediaType("application/csv"))

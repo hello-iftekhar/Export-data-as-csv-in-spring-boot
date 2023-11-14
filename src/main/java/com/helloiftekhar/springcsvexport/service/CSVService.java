@@ -3,10 +3,12 @@ package com.helloiftekhar.springcsvexport.service;
 import com.helloiftekhar.springcsvexport.helper.CSVHelper;
 import com.helloiftekhar.springcsvexport.model.Employee;
 import com.helloiftekhar.springcsvexport.repository.EmployeeRepository;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -23,7 +25,9 @@ public class CSVService {
     }
 
     public ByteArrayInputStream load() throws IOException {
+
         List<Employee> employeeList = repository.findAll();
+
         return CSVHelper.writeCsv(employeeList);
     }
 }
