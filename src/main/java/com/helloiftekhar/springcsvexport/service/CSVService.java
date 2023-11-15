@@ -26,7 +26,8 @@ public class CSVService {
 
     public ByteArrayInputStream load() throws IOException {
 
-        List<Employee> employeeList = repository.findAll();
+        // get list of employee
+        List<Employee> employeeList = findAll();
 
         return CSVHelper.writeCsv(employeeList);
     }

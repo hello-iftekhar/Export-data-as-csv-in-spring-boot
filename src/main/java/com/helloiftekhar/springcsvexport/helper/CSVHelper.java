@@ -15,14 +15,13 @@ import java.util.List;
 
 public class CSVHelper {
     public static ByteArrayInputStream writeCsv(List<Employee> employeeList) throws IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(out), CSVFormat.DEFAULT);
 
-        // CSV Header
+        // provide data to csv printer
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(outputStream),CSVFormat.DEFAULT);
         csvPrinter.printRecord("Id", "Name", "Phone", "Email");
 
-        // loop through the data and put the data to csvPrinter
-        for(Employee employee: employeeList) {
+        for (Employee employee: employeeList) {
             csvPrinter.printRecord(
                     String.valueOf(employee.getId()),
                     employee.getName(),
@@ -31,8 +30,9 @@ public class CSVHelper {
             );
         }
 
+
         csvPrinter.flush();
 
-        return new ByteArrayInputStream(out.toByteArray());
+        return new ByteArrayInputStream(outputStream.toByteArray());
     }
 }
