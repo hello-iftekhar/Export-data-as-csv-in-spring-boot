@@ -1,5 +1,6 @@
 package com.helloiftekhar.springcsvexport.controller;
 
+import com.helloiftekhar.springcsvexport.helper.CSVHelper;
 import com.helloiftekhar.springcsvexport.model.Employee;
 import com.helloiftekhar.springcsvexport.service.CSVService;
 import org.apache.commons.csv.CSVFormat;
@@ -14,7 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 @Controller
@@ -22,7 +26,6 @@ public class CSVController {
 
     @Autowired
     CSVService csvService;
-    private ByteArrayOutputStream outputStream;
 
     @GetMapping("/")
     public String home(ModelMap map) {
@@ -31,14 +34,14 @@ public class CSVController {
     }
 
     @GetMapping("/download")
-    public ResponseEntity<Resource> getFile() throws IOException {
-        String fileName = "employee.csv";
-        InputStreamResource body = new InputStreamResource(
-                csvService.load()
-        );
+    public ResponseEntity<Resource> downloadCSV() throws IOException {
+
+
+
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+fileName)
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=employee.csv")
                 .contentType(MediaType.parseMediaType("application/csv"))
-                .body(body);
+                .body(csvService.load());
     }
 }
